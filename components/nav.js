@@ -1,4 +1,3 @@
-import React from 'react'
 import Link from 'next/link'
 
 const links = [
@@ -9,47 +8,32 @@ const links = [
   return link
 })
 
+const homeLink = `
+  inline-block border border-blue-500
+  rounded py-2 px-4 bg-blue-500 hover:bg-blue-700
+  text-white
+`;
+
+const linkClasses = `
+  inline-block border border-white rounded
+  hover:border-gray-200 text-blue-500 hover:bg-gray-200
+  py-2 px-4
+`;
+
 const Nav = () => (
   <nav>
-    <ul>
-      <li>
+    <ul className="flex p-3">
+      <li className="mr-6">
         <Link href="/">
-          <a>Home</a>
+          <a className={homeLink}>Home</a>
         </Link>
       </li>
       {links.map(({ key, href, label }) => (
         <li key={key}>
-          <a href={href}>{label}</a>
+          <a href={href} className={linkClasses}>{label}</a>
         </li>
       ))}
     </ul>
-
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
   </nav>
 )
 
