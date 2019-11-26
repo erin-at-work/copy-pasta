@@ -11,6 +11,5 @@ module.exports = withCSS({
     FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
     FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL,
     API_URL: process.env.API_URL
-  },
-  target: 'serverless'
+  }
 })

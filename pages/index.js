@@ -94,8 +94,6 @@ const Home = ({ entries }) => {
 
 Home.getInitialProps = async () => {
   const response = await fetch(`${process.env.API_URL}/api/entries`)
-  console.log(`${process.env.API_URL}/api/entries`);
-  console.log(`${process.env.NODE_ENV}`);
   const entries = await response.json();
   return { entries }
 }
