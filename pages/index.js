@@ -91,7 +91,18 @@ const Home = ({ entries }) => {
 }
 
 Home.getInitialProps = async ({ req }) => {
-  const baseUrl = req ? `${req.headers.referer}` : '/';
+  let baseUrl = '/';
+
+  if (req && typeof window === "undefined") {
+    // this is running server-side, so we need an absolute URL
+    const host = req.headers.host
+    if (host && host.startsWith("localhost")) {
+      baseUrl = `http://localhost:3000/`
+    } else {
+      baseUrl = `https://${host}/`
+    }
+  }
+
   const response = await fetch(`${baseUrl}api/entries`)
   const entries = await response.json();
   return { entries }
