@@ -61,7 +61,8 @@ const Home = ({ entries }) => {
 )}
 
 Home.getInitialProps = async () => {
-  const response = await fetch(`${process.env.api_url}/api/entries`)
+  const url = process.env.NODE_ENV === 'production' ? 'https://copy-pasta.erinlee.now.sh' : process.env.api_url;
+  const response = await fetch(`${url}/api/entries`)
   const entries = await response.json();
   return { entries }
 }
