@@ -2,9 +2,9 @@
   "name": "Copy Pasta",
   "version": 2,
   "env": {
-    "FIREBASE_API_KEY": "@firebase_api_key",
-    "FIREBASE_AUTH_DOMAIN": "@firebase_auth_domain",
-    "FIREBASE_DATABASE_URL": "@firebase_database_url",
-    "API_URL": "@api_url"
+    "FIREBASE_API_KEY": "@firebase-api-key",
+    "FIREBASE_AUTH_DOMAIN": "@firebase-auth-domain",
+    "FIREBASE_DATABASE_URL": "@firebase-database-url",
+    "API_URL": "@api-url"
   }
 }
