@@ -90,9 +90,9 @@ const Home = ({ entries }) => {
                     <button className={copyBtn} data-clipboard-target={`#id-${entry.id}`}>
                       Copy
                     </button>
-                    <p>{entry.description}</p>
+                    <p className="text-gray-500">{entry.description}</p>
                     {entry.link && (
-                      <a href={entry.link}>{entry.link}</a>
+                      <a className="text-gray-400 text-xs hover:text-red-500" href={entry.link}>{entry.link}</a>
                     )}
                   </li>
                 )
