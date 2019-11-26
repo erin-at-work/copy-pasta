@@ -7,9 +7,9 @@ require('dotenv').config({
 
 module.exports = withCSS({
   env: {
-    firebase_api_key: process.env.firebase_api_key,
-    firebase_auth_domain: process.env.firebase_auth_domain,
-    firebase_database_url: process.env.firebase_database_url,
-    api_url: process.env.api_url,
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+    FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
+    FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL,
+    API_URL: process.env.API_URL,
   },
 })
