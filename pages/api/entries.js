@@ -6,9 +6,9 @@ import * as firebase from "firebase/app"
 import "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: process.env.firebase_api_key,
-  authDomain: process.env.firebase_auth_domain,
-  databaseURL: process.env.firebase_database_url,
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
   projectId: "copypasta-d3ef0"
 };
 
