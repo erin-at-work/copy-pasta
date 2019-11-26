@@ -29,7 +29,7 @@ const Home = ({ entries }) => {
       created_at: Date.now()
     }
 
-    fetch(entriesAPI, {
+    fetch(`${process.env.API_URL}/api/entries`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: { 'content-type': 'application/json' }
@@ -93,8 +93,9 @@ const Home = ({ entries }) => {
 }
 
 Home.getInitialProps = async () => {
-  console.log(entriesAPI);
-  const response = await fetch(entriesAPI)
+  const response = await fetch(`${process.env.API_URL}/api/entries`)
+  console.log(`${process.env.API_URL}/api/entries`);
+  console.log(`${process.env.NODE_ENV}`);
   const entries = await response.json();
   return { entries }
 }

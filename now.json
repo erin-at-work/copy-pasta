@@ -5,6 +5,6 @@
     "FIREBASE_API_KEY": "@firebase_api_key",
     "FIREBASE_AUTH_DOMAIN": "@firebase_auth_domain",
     "FIREBASE_DATABASE_URL": "@firebase_database_url",
-    "API_URL": "https://copy-pasta.erinlee.now.sh"
+    "API_URL": "@api_url"
   }
 }
