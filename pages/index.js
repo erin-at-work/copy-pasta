@@ -11,8 +11,6 @@ const copyBtn = `
   mb-5 text-xs btn-copy
 `;
 
-const entriesAPI = `${process.env.API_URL}/api/entries`;
-
 const Home = ({ entries }) => {
   const [content, setContent] = useState('')
 
@@ -29,7 +27,7 @@ const Home = ({ entries }) => {
       created_at: Date.now()
     }
 
-    fetch(`${process.env.API_URL}/api/entries`, {
+    fetch('/api/entries', {
       method: 'POST',
       body: JSON.stringify(body),
       headers: { 'content-type': 'application/json' }
@@ -92,8 +90,9 @@ const Home = ({ entries }) => {
   )
 }
 
-Home.getInitialProps = async () => {
-  const response = await fetch(`${process.env.API_URL}/api/entries`)
+Home.getInitialProps = async ({ req }) => {
+  const baseUrl = req ? `${req.headers.referer}` : '/';
+  const response = await fetch(`${baseUrl}api/entries`)
   const entries = await response.json();
   return { entries }
 }
