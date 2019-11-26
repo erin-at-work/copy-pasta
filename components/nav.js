@@ -1,17 +1,17 @@
 import Link from 'next/link'
 
 const homeLink = `
-  inline-block border border-blue-500
-  rounded py-2 px-4 bg-blue-500 hover:bg-blue-700
-  text-white
+  py-2 px-4
+  text-lg
+  text-center
 `;
 
 const Nav = () => (
   <nav>
-    <ul className="flex p-3">
-      <li className="mr-6">
+    <ul className="flex p-5 justify-center">
+      <li className="block">
         <Link href="/">
-          <a className={homeLink}>Home</a>
+          <a className={homeLink}>✂️🍝</a>
         </Link>
       </li>
     </ul>
