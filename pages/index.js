@@ -93,6 +93,7 @@ const Home = ({ entries }) => {
 }
 
 Home.getInitialProps = async () => {
+  console.log(entriesAPI);
   const response = await fetch(entriesAPI)
   const entries = await response.json();
   return { entries }
