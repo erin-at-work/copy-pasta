@@ -28,6 +28,7 @@ export default (req, res) => {
   switch(method) {
     case 'GET':
       db.collection("entries")
+        .orderBy('created_at', 'desc')
         .get()
         .then(querySnapshot => {
           const entries = querySnapshot.docs.map(doc => {
