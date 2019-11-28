@@ -1,6 +1,6 @@
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
-import * as firebase from "firebase/app"
+import firebase from "firebase/app"
 
 // Add the Firebase services that you want to use
 import "firebase/firestore"
@@ -21,7 +21,7 @@ const db = firebase.firestore();
 
 export default (req, res) => {
   const {
-    body: { content, description, link, created_at },
+    body: { content, description, link },
     method
   } = req;
 
@@ -29,40 +29,33 @@ export default (req, res) => {
     case 'GET':
       db.collection("entries")
         .get()
-        .then((querySnapshot) => {
-          const entries = [];
-          querySnapshot.forEach(doc => entries.push({
-            id: doc.id,
-            ...doc.data()
-          }));
+        .then(querySnapshot => {
+          const entries = querySnapshot.docs.map(doc => {
+            return {
+              id: doc.id,
+              ...doc.data(),
+              created_at: doc.data().created_at.toDate()
+            }
+          });
           res.status(200).json(entries)
         })
-        .catch((err) => res.json({ error }));
+        .catch((error) => res.json({ error }));
       break
     case 'POST':
-      console.log(
-        {
-          content,
-          description,
-          link
-        }
-      );
-
       db.collection("entries")
         .add({
+          created_at: firebase.firestore.FieldValue.serverTimestamp(),
           content,
-          created_at,
           description,
           link,
         })
         .then(docRef => {
           console.log("Document written with ID: ", docRef.id);
-          res.send(`Post ${docRef.id} created`)
+          res.status(201).send({ id: docRef.id })
         })
         .catch(error => {
           console.error("Error adding document: ", error);
         })
-
       break
     default:
       res.setHeader('Allow', ['GET', 'POST'])

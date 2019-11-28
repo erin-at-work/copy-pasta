@@ -12,6 +12,7 @@ const copyBtn = `
 `;
 
 const Home = ({ entries }) => {
+  const [allEntries, setEntries] = useState(entries)
   const [content, setContent] = useState('')
   const [description, setDescription] = useState('')
   const [link, setLink] = useState('')
@@ -20,25 +21,46 @@ const Home = ({ entries }) => {
     new ClipboardJS('.btn-copy');
   });
 
-  const handleOnSubmit = ev => {
+  const postNewEntry = async body => {
+    try {
+      const resp = await fetch('/api/entries', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'content-type': 'application/json' }
+      })
+
+      return resp.clone()
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  const handleOnSubmit = async (ev) => {
+    ev.persist();
+    ev.preventDefault();
     if (!content.length) return;
 
     const body = {
       content,
       description,
-      link,
-      created_at: Date.now()
+      link
     }
 
-    ev.preventDefault();
-    ev.target.reset()
+    try {
+      const resp = await postNewEntry(body)
+      const { id } = await resp.json();
 
-    fetch('/api/entries', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'content-type': 'application/json' }
-    })
+      setEntries([{ ...body, created_at: Date.now(), id }, ...entries])
+      ev.target.reset()
+    } catch {
+      console.log(`There's been an error saving ${content}`)
+    }
   }
+
+  const dateOpts = { year: 'numeric', month: 'numeric', day: 'numeric' };
+  const createdDate = entryDate => {
+    return new Date(entryDate).toLocaleDateString('en-US', dateOpts);
+  };
 
   return (
     <div className="bg-gray-200 min-h-screen h-full">
@@ -80,7 +102,7 @@ const Home = ({ entries }) => {
         <div className="bg-white mt-9 mb-9 w-full rounded p-6 shadow-md">
           <ul>
             {
-              entries.map(entry => {
+              allEntries.map(entry => {
                 return (
                   <li key={entry.id} className="mb-5 border-b border-b-2 border-teal-200 pb-4">
                     <pre id={`id-${entry.id}`}>
@@ -91,6 +113,9 @@ const Home = ({ entries }) => {
                       Copy
                     </button>
                     <p className="text-gray-500">{entry.description}</p>
+                    <div>
+                      {createdDate(entry.created_at)}
+                    </div>
                     {entry.link && (
                       <a className="text-gray-400 text-xs hover:text-red-500" href={entry.link}>{entry.link}</a>
                     )}
