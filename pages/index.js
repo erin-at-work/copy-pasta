@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
+
 import Nav from '../components/nav'
 import Form from '../components/form'
 import Entry from '../components/entry'
 
 const Home = ({ entries }) => {
   const [allEntries, setEntries] = useState(entries)
+
+  const updateEntryList = newEntry => {
+    setEntries([{ ...newEntry }, ...entries])
+  }
 
   return (
     <div className="bg-gray-200 min-h-screen h-full">
@@ -16,7 +21,10 @@ const Home = ({ entries }) => {
 
       <Nav />
       <div className="container mx-auto w-full max-w-lg flex flex-col pb-8">
-        <Form updateEntryList={entries => setEntries(entries)} entries={allEntries} />
+        <Form
+          onSubmitCallback={entries => updateEntryList(entries)}
+          entries={allEntries}
+        />
         <div className="bg-white mt-9 mb-9 w-full rounded p-6 shadow-md">
           <ul>
             {

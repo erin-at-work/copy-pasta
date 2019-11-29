@@ -1,24 +1,16 @@
 import React, { useState } from 'react'
-import fetch from 'isomorphic-unfetch'
+import { postNewEntry } from '../lib/api'
 
-const Form = ({ updateEntryList, entries }) => {
-  const [content, setContent] = useState('')
-  const [description, setDescription] = useState('')
-  const [link, setLink] = useState('')
-
-  const postNewEntry = async body => {
-    try {
-      const resp = await fetch('/api/entries', {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: { 'content-type': 'application/json' }
-      })
-
-      return resp.clone()
-    } catch (err) {
-      console.warn(err)
-    }
-  }
+const Form = ({
+  onSubmitCallback = {},
+  descriptionEntry = '',
+  linkEntry = '',
+  contentEntry = '',
+  entryId = null
+}) => {
+  const [content, setContent] = useState(contentEntry)
+  const [description, setDescription] = useState(descriptionEntry)
+  const [link, setLink] = useState(linkEntry)
 
   const handleOnSubmit = async (ev) => {
     ev.persist();
@@ -32,10 +24,15 @@ const Form = ({ updateEntryList, entries }) => {
     }
 
     try {
-      const resp = await postNewEntry(body)
+      const resp = await postNewEntry({ body, id: entryId })
       const { id } = await resp.json();
 
-      updateEntryList([{ ...body, created_at: Date.now(), id }, ...entries])
+      const newEntry = {
+        ...body,
+        ...(!entryId && { created_at: Date.now(), id })
+      }
+
+      onSubmitCallback(newEntry)
       ev.target.reset()
     } catch {
       console.log(`There's been an error saving ${content}`)
@@ -52,18 +49,21 @@ const Form = ({ updateEntryList, entries }) => {
           onChange={ev => setContent(ev.target.value)}
           placeholder="Say something interesting..."
           type="text"
+          value={content}
           className="shadow appearance-none border-rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        ></textarea>
+        />
         <input
           onChange={ev => setDescription(ev.target.value)}
           placeholder="Description"
           type="text"
+          value={description}
           className="shadow appearance-none border-rounded mt-5 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <input
           onChange={ev => setLink(ev.target.value)}
           placeholder="http://"
           type="text"
+          value={link}
           className="shadow appearance-none border-rounded w-full mt-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
