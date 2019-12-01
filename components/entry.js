@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ClipboardJS from 'clipboard'
 import { deleteEntry } from '../lib/api'
-import Form from './form'
+import Form from './entryForm'
 
 const copyBtn = `
   bg-transparent hover:bg-blue-500
@@ -25,7 +25,6 @@ const Entry = ({ entry }) => {
   };
 
   const onDeleteClick = async () => {
-    console.log('delete entry')
     try {
       const resp = await deleteEntry(entry.id)
       const data = await resp.text()
@@ -71,7 +70,7 @@ const Entry = ({ entry }) => {
         </>
       ) : (
         <>
-        <pre id={`id-${entry.id}`}>
+        <pre id={`id-${entry.id}`} className="truncate">
           {currentEntry.content}
         </pre>
         <br />
@@ -100,7 +99,7 @@ const Entry = ({ entry }) => {
         )}
         </>
       )}
-      <div>
+      <div className="text-teal-600 text-xs mt-5">
         {createdDate(entry.created_at)}
       </div>
     </li>

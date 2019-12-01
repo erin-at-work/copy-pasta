@@ -1,4 +1,4 @@
-import db from '../../lib/db'
+import db, { firestoreTimestamp } from '../../lib/db'
 
 export default (req, res) => {
   const {
@@ -24,9 +24,10 @@ export default (req, res) => {
         .catch((error) => res.json({ error }));
       break
     case 'POST':
+      console.log('DOES IT HIT HERE?')
       db.collection('entries')
         .add({
-          created_at: firebase.firestore.FieldValue.serverTimestamp(),
+          created_at: firestoreTimestamp,
           content,
           description,
           link,
