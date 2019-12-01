@@ -21,10 +21,15 @@ const Home = ({ entries }) => {
 
       <Nav />
       <div className="container mx-auto w-full max-w-lg flex flex-col pb-8">
-        <Form
-          onSubmitCallback={entries => updateEntryList(entries)}
-          entries={allEntries}
-        />
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-6 w-full">
+          <label htmlFor="text" className="block text-center text-gray-700 text-sm font-bold mb-2">
+            All Carbs, No Cardio
+          </label>
+          <Form
+            onSubmitCallback={entries => updateEntryList(entries)}
+            entries={allEntries}
+          />
+        </div>
         <div className="bg-white mt-9 mb-9 w-full rounded p-6 shadow-md">
           <ul>
             {

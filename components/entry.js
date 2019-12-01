@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ClipboardJS from 'clipboard'
+import { deleteEntry } from '../lib/api'
 import Form from './form'
 
 const copyBtn = `
@@ -11,6 +12,7 @@ const copyBtn = `
 
 const Entry = ({ entry }) => {
   const [currentEntry, setEntry] = useState(entry)
+  const [isDeleted, setDelete] = useState(false)
   const [showForm, setForm] = useState(false)
 
   useEffect(() => {
@@ -22,6 +24,33 @@ const Entry = ({ entry }) => {
     return new Date(entryDate).toLocaleDateString('en-US', dateOpts);
   };
 
+  const onDeleteClick = async () => {
+    console.log('delete entry')
+    try {
+      const resp = await deleteEntry(entry.id)
+      const data = await resp.text()
+      console.log(data)
+      setDelete(true)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const onEditEntry = resp => {
+    setEntry(resp)
+    setForm(false)
+  }
+
+  if (isDeleted) {
+    return (
+      <li className="border-b border-b-2 border-white p-4 mb-4 text-teal-700 text-xs bg-teal-100 rounded-lg">
+        <div>
+          Deleted!
+        </div>
+      </li>
+    )
+  }
+
   return (
     <li className="mb-5 border-b border-b-2 border-teal-200 pb-4">
       {showForm ? (
@@ -31,10 +60,10 @@ const Entry = ({ entry }) => {
           linkEntry={currentEntry.link}
           contentEntry={currentEntry.content}
           entryId={entry.id}
-          onSubmitCallback={resp => setEntry(resp)}
+          onSubmitCallback={resp => onEditEntry(resp)}
         />
         <button
-          className="text-gray-300 mb-5"
+          className="text-gray-300 mb-5 mt-3"
           onClick={() => setForm(false)}
         >
           Cancel
@@ -56,6 +85,14 @@ const Entry = ({ entry }) => {
           className="ml-5 text-blue-600 text-xs"
         >
           Edit
+        </button>
+        <button
+          data-entry-id={entry.id}
+          onClick={() => onDeleteClick()}
+          type="button"
+          className="ml-5 text-blue-500 text-xs"
+        >
+          Delete
         </button>
         <p className="text-gray-500">{currentEntry.description}</p>
         {currentEntry.link && (

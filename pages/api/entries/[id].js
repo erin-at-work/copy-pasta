@@ -17,15 +17,15 @@ export default (req, res) => {
           res.status(200).json(body)
         })
         .catch(console.log)
-        break
+      break
     case 'DELETE':
       db.collection('entries')
         .doc(id)
         .delete()
         .then(() => {
-          console.log('Document successfully deleted!')
+          console.log(`Document ${id} successfully deleted!`)
+          res.end(`Post: ${id}`)
         })
-      res.end(`Post: ${id}`)
       break
     default:
       break

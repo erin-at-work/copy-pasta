@@ -40,34 +40,29 @@ const Form = ({
   }
 
   return (
-    <form onSubmit={handleOnSubmit} id="form" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full">
-      <div className="mb-4">
-        <label htmlFor="text" className="block text-gray-700 text-sm font-bold mb-2">
-          Snippet:
-        </label>
-        <textarea
-          onChange={ev => setContent(ev.target.value)}
-          placeholder="Say something interesting..."
-          type="text"
-          value={content}
-          className="shadow appearance-none border-rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <input
-          onChange={ev => setDescription(ev.target.value)}
-          placeholder="Description"
-          type="text"
-          value={description}
-          className="shadow appearance-none border-rounded mt-5 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <input
-          onChange={ev => setLink(ev.target.value)}
-          placeholder="http://"
-          type="text"
-          value={link}
-          className="shadow appearance-none border-rounded w-full mt-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <button type="submit" className="w-full bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+    <form onSubmit={handleOnSubmit} id="form">
+      <textarea
+        onChange={ev => setContent(ev.target.value)}
+        placeholder="Say something interesting..."
+        type="text"
+        value={content}
+        className="shadow appearance-none border-rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
+      <input
+        onChange={ev => setDescription(ev.target.value)}
+        placeholder="Description"
+        type="text"
+        value={description}
+        className="shadow appearance-none border-rounded mt-5 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
+      <input
+        onChange={ev => setLink(ev.target.value)}
+        placeholder="http://"
+        type="text"
+        value={link}
+        className="shadow appearance-none border-rounded w-full mt-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
+      <button type="submit" className="mt-5 w-full bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         Submit
       </button>
     </form>
