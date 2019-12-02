@@ -24,7 +24,6 @@ export default (req, res) => {
         .catch((error) => res.json({ error }));
       break
     case 'POST':
-      console.log('DOES IT HIT HERE?')
       db.collection('entries')
         .add({
           created_at: firestoreTimestamp,

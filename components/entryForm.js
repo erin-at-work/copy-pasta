@@ -25,8 +25,8 @@ const Form = ({
 
     try {
       const resp = await postNewEntry({ body, id: entryId })
-      const { id } = await resp.json();
-      console.log(`Edited ${id}`)
+      await resp.json();
+      console.log(`Edited ${entryId}`)
 
       onSubmitCallback(body)
     } catch {

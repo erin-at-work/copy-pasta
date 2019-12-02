@@ -13,6 +13,15 @@ const Home = ({ entries }) => {
   const [link, setLink] = useState('')
   const [showForm, setFormVisible] = useState(false)
 
+  const removeEntry = entryId => {
+    console.log(allEntries)
+    const updatedList = allEntries.filter(entry => entry.id !== entryId);
+    console.log(updatedList)
+    setTimeout(() => {
+      setEntries(updatedList)
+    }, 500)
+  }
+
   const handleOnSubmit = async (ev) => {
     ev.persist();
     ev.preventDefault();
@@ -28,7 +37,7 @@ const Home = ({ entries }) => {
       const resp = await postNewEntry({ body })
       const { id } = await resp.json();
 
-      setEntries([{ ...body, created_at: Date.now(), id }, ...entries])
+      setEntries([{ ...body, created_at: Date.now(), id }, ...allEntries])
       ev.target.reset()
     } catch {
       console.log(`There's been an error saving ${content}`)
@@ -96,7 +105,7 @@ const Home = ({ entries }) => {
         <div className="bg-white mt-9 mb-9 w-full rounded p-6 shadow-md">
           <ul>
             {
-              allEntries.map(entry => <Entry entry={entry} key={entry.id} />)
+              allEntries.map(entry => <Entry entry={entry} key={entry.id} removeEntryFromList={removeEntry} />)
             }
           </ul>
         </div>

@@ -10,14 +10,18 @@ const copyBtn = `
   mb-5 text-xs btn-copy
 `;
 
-const Entry = ({ entry }) => {
+const Entry = ({ entry, removeEntryFromList }) => {
   const [currentEntry, setEntry] = useState(entry)
   const [isDeleted, setDelete] = useState(false)
   const [showForm, setForm] = useState(false)
 
   useEffect(() => {
-    new ClipboardJS('.btn-copy');
-  })
+    if (isDeleted) {
+      removeEntryFromList(entry.id)
+    } else {
+      new ClipboardJS('.btn-copy');
+    }
+  }, [isDeleted])
 
   const dateOpts = { year: 'numeric', month: 'numeric', day: 'numeric' };
   const createdDate = entryDate => {
