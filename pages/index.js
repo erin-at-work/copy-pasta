@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 
 import { postNewEntry } from '../lib/api'
@@ -8,18 +8,44 @@ import Entry from '../components/entry'
 
 const Home = ({ entries }) => {
   const [allEntries, setEntries] = useState(entries)
+  const [filteredList, setFilter] = useState(allEntries)
   const [content, setContent] = useState('')
   const [description, setDescription] = useState('')
   const [link, setLink] = useState('')
   const [showForm, setFormVisible] = useState(false)
 
+  useEffect(() => {
+    setFilter(allEntries)
+  }, [allEntries])
+
+  const handleOnSearch = (keyword) => {
+    console.log(keyword)
+    let list;
+
+    if (!Boolean(keyword.length)) {
+      list = [...allEntries]
+    } else {
+      try {
+        list = allEntries.filter((entry) => {
+          return entry.content.toLowerCase()
+            .search(keyword.trim().toLowerCase()) !== -1;
+        })
+      } catch(err) {
+        console.log(err)
+        console.log(`Not a valid search term ${keyword}`)
+        list = [...allEntries]
+      }
+    }
+    setFilter(list)
+  }
+
   const removeEntry = entryId => {
-    console.log(allEntries)
+    console.log(allEntries.length)
     const updatedList = allEntries.filter(entry => entry.id !== entryId);
-    console.log(updatedList)
+    console.log(updatedList.length)
     setTimeout(() => {
       setEntries(updatedList)
-    }, 500)
+    }, 1000)
   }
 
   const handleOnSubmit = async (ev) => {
@@ -52,7 +78,16 @@ const Home = ({ entries }) => {
       </Head>
 
       <Nav />
+
       <div className="container mx-auto w-full max-w-lg flex flex-col pb-8">
+
+        <input
+          onChange={ev => handleOnSearch(ev.target.value)}
+          placeholder="Search here"
+          type="text"
+          className="bg-gray-300 mb-5 appearance-none border-2 border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+        />
+
         {showForm ? (
           <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-6 w-full">
             <label htmlFor="text" className="block text-center text-gray-700 text-sm font-bold mb-2">
@@ -105,7 +140,7 @@ const Home = ({ entries }) => {
         <div className="bg-white mt-9 mb-9 w-full rounded p-6 shadow-md">
           <ul>
             {
-              allEntries.map(entry => <Entry entry={entry} key={entry.id} removeEntryFromList={removeEntry} />)
+              filteredList.map(entry => <Entry entry={entry} key={entry.id} removeEntryFromList={removeEntry} />)
             }
           </ul>
         </div>

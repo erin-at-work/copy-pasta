@@ -99,7 +99,9 @@ const Entry = ({ entry, removeEntryFromList }) => {
         </button>
         <p className="text-gray-500">{currentEntry.description}</p>
         {currentEntry.link && (
-          <a className="text-gray-400 text-xs hover:text-red-500" href={currentEntry.link}>{currentEntry.link}</a>
+          <a target="_blank" className="text-gray-400 text-xs hover:text-red-500" href={currentEntry.link}>
+            {currentEntry.link}
+          </a>
         )}
         </>
       )}
