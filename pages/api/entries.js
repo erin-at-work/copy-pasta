@@ -1,4 +1,4 @@
-import db, { firestoreTimestamp } from '../../lib/db'
+import db, { firestoreTimestamp } from "../../lib/db";
 
 export default (req, res) => {
   const {
@@ -6,10 +6,10 @@ export default (req, res) => {
     method
   } = req;
 
-  switch(method) {
-    case 'GET':
-      db.collection('entries')
-        .orderBy('created_at', 'desc')
+  switch (method) {
+    case "GET":
+      db.collection("entries")
+        .orderBy("created_at", "desc")
         .get()
         .then(querySnapshot => {
           const entries = querySnapshot.docs.map(doc => {
@@ -17,30 +17,30 @@ export default (req, res) => {
               id: doc.id,
               ...doc.data(),
               created_at: doc.data().created_at.toDate()
-            }
+            };
           });
-          res.status(200).json(entries)
+          res.status(200).json(entries);
         })
-        .catch((error) => res.json({ error }));
-      break
-    case 'POST':
-      db.collection('entries')
+        .catch(error => res.json({ error }));
+      break;
+    case "POST":
+      db.collection("entries")
         .add({
           created_at: firestoreTimestamp,
           content,
           description,
-          link,
+          link
         })
         .then(docRef => {
-          console.log('Document written with ID: ', docRef.id);
-          res.status(201).send({ id: docRef.id })
+          console.log("Document written with ID: ", docRef.id);
+          res.status(201).send({ id: docRef.id });
         })
         .catch(error => {
-          console.error('Error adding document: ', error);
-        })
-      break
+          console.error("Error adding document: ", error);
+        });
+      break;
     default:
-      res.setHeader('Allow', ['GET', 'POST'])
-      res.status(405).end(`Method ${method} Not Allowed`)
+      res.setHeader("Allow", ["GET", "POST"]);
+      res.status(405).end(`Method ${method} Not Allowed`);
   }
-}
+};

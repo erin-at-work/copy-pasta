@@ -1,4 +1,4 @@
-import db from '../../../lib/db'
+import db from "../../../lib/db";
 
 export default (req, res) => {
   const {
@@ -7,27 +7,27 @@ export default (req, res) => {
     method
   } = req;
 
-  switch(method) {
-    case 'POST':
-      db.collection('entries')
+  switch (method) {
+    case "POST":
+      db.collection("entries")
         .doc(id)
-        .update({...body})
+        .update({ ...body })
         .then(() => {
-          console.log('Document successfully updated!')
-          res.status(200).json(body)
+          console.log("Document successfully updated!");
+          res.status(200).json(body);
         })
-        .catch(console.log)
-      break
-    case 'DELETE':
-      db.collection('entries')
+        .catch(console.log);
+      break;
+    case "DELETE":
+      db.collection("entries")
         .doc(id)
         .delete()
         .then(() => {
-          console.log(`Document ${id} successfully deleted!`)
-          res.end(`Post: ${id}`)
-        })
-      break
+          console.log(`Document ${id} successfully deleted!`);
+          res.end(`Post: ${id}`);
+        });
+      break;
     default:
-      break
+      break;
   }
-}
+};

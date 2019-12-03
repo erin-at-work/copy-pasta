@@ -27,7 +27,7 @@ const Entry = ({ entry, removeEntryFromList }) => {
 
   useEffect(() => {
     incrementCount();
-  }, [counter])
+  }, [counter]);
 
   useEffect(() => {
     if (isDeleted) {

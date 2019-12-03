@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 const homeLink = `
   py-2 px-4
@@ -16,6 +16,6 @@ const Nav = () => (
       </li>
     </ul>
   </nav>
-)
+);
 
-export default Nav
+export default Nav;
