@@ -81,7 +81,7 @@ const Home = ({ entries }) => {
 
       <Nav />
 
-      <div className="container mx-auto w-full max-w-lg flex flex-col pb-8">
+      <div className="container mx-auto w-full max-w-lg flex flex-col pb-8 px-4">
         <input
           onChange={ev => handleOnSearch(ev.target.value)}
           placeholder="Search here"
