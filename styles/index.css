@@ -3,3 +3,8 @@
 @tailwind components;
 /* purgecss end ignore */
 @tailwind utilities;
+
+code::selection {
+  background: #71a95a;
+  color: #c3f0ca;
+}
