@@ -18,7 +18,7 @@ const Entry = ({ entry, removeEntryFromList }) => {
   const [counter, setCount] = useState(initialCount);
 
   useEffect(() => {
-    new ClipboardJS(`#js-copy-${entry.id}`);
+    const clipboard = new ClipboardJS(`#js-copy-${entry.id}`);
 
     return function cleanup() {
       clipboard.destroy();
