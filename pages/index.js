@@ -154,6 +154,11 @@ const Home = ({ entries }) => {
               />
             ))}
           </ul>
+          {
+            !Boolean(filteredList.length) && (
+              <p className="italic text-center text-gray-400">Mamma mia! Basta pasta!</p>
+            )
+          }
         </div>
       </div>
     </div>
