@@ -4,10 +4,10 @@ import { deleteEntry, postNewEntry } from "../lib/api";
 import Form from "./entryForm";
 
 const copyBtn = `
-  bg-transparent hover:bg-blue-500
-  text-blue-700 font-semibold hover:text-white py-2 px-4
-  border border-blue-500 hover:border-transparent rounded
-  mb-5 text-xs btn-copy
+  btn-copy bg-transparent hover:bg-blue-500
+  text-blue-700 hover:text-white text-xs font-semibold
+  border border-blue-500 hover:border-transparent
+  rounded ml-5 py-2 px-4
 `;
 
 const Entry = ({ entry, removeEntryFromList }) => {
@@ -99,39 +99,44 @@ const Entry = ({ entry, removeEntryFromList }) => {
         </>
       ) : (
         <>
-          <pre id={`id-${entry.id}`} className="truncate">
-            {currentEntry.content}
+          <pre id={`id-${entry.id}`} className="truncate mb-3 bg-gray-100 appearance-none rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+            <code>{currentEntry.content}</code>
           </pre>
-          <br />
-          <button
-            className={copyBtn}
-            id={`js-copy-${entry.id}`}
-            onClick={() => setCount(counter + 1)}
-            data-clipboard-target={`#id-${entry.id}`}
-          >
-            Copy
-          </button>
-          <button
-            data-entry-id={entry.id}
-            onClick={() => setForm(true)}
-            type="button"
-            className="ml-5 text-blue-600 text-xs"
-          >
-            Edit
-          </button>
-          <button
-            data-entry-id={entry.id}
-            onClick={() => onDeleteClick()}
-            type="button"
-            className="ml-5 text-blue-500 text-xs"
-          >
-            Delete
-          </button>
+
+          <div className="flex justify-end mb-5">
+            <button
+              data-entry-id={entry.id}
+              onClick={() => onDeleteClick()}
+              type="button"
+              className="ml-5 text-blue-500 text-xs"
+            >
+              Delete
+            </button>
+
+            <button
+              data-entry-id={entry.id}
+              onClick={() => setForm(true)}
+              type="button"
+              className="ml-5 text-blue-600 text-xs"
+            >
+              Edit
+            </button>
+
+            <button
+              className={copyBtn}
+              id={`js-copy-${entry.id}`}
+              onClick={() => setCount(counter + 1)}
+              data-clipboard-target={`#id-${entry.id}`}
+            >
+              Copy
+            </button>
+          </div>
+
           <p className="text-gray-500">{currentEntry.description}</p>
           {currentEntry.link && (
             <a
               target="_blank"
-              className="text-gray-400 text-xs hover:text-red-500"
+              className="text-gray-400 text-xs hover:text-red-500 underline"
               href={currentEntry.link}
             >
               {currentEntry.link}
