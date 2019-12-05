@@ -12,7 +12,7 @@ const Home = ({ entries }) => {
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
-  const [showForm, setFormVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
 
   useEffect(() => {
     setFilter(allEntries);
@@ -84,12 +84,13 @@ const Home = ({ entries }) => {
       <div className="container mx-auto w-full max-w-lg flex flex-col pb-8 px-4">
         <input
           onChange={ev => handleOnSearch(ev.target.value)}
+          autoFocus
           placeholder="Search here"
           type="text"
           className="bg-gray-300 mb-5 appearance-none border-2 border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
         />
 
-        {showForm ? (
+        {formVisible ? (
           <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-6 w-full">
             <label
               htmlFor="text"
@@ -99,6 +100,7 @@ const Home = ({ entries }) => {
             </label>
             <form onSubmit={handleOnSubmit} id="form">
               <textarea
+                autoFocus={formVisible}
                 onChange={ev => setContent(ev.target.value)}
                 placeholder="Say something interesting..."
                 type="text"

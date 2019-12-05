@@ -26,7 +26,9 @@ const Entry = ({ entry, removeEntryFromList }) => {
   }, []);
 
   useEffect(() => {
-    incrementCount();
+    if (counter > initialCount) {
+      incrementCount();
+    }
   }, [counter]);
 
   useEffect(() => {
