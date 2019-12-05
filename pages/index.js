@@ -83,7 +83,22 @@ const Home = ({ entries }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <nav className="panel"></nav>
+      <nav className="panel">
+        <div className="w-full flex flex-col p-5">
+          <header className="header text-center">
+            COPY<span>PASTA</span>
+          </header>
+          <section className="mt-5">
+            {['github', 'stripe', 'emojis', 'docker', 'react'].map(tag => {
+              return (
+              <span className="mr-2 mb-2 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-600">#{tag}</span>
+              )
+            })}
+
+          </section>
+        </div>
+      </nav>
+
       <div className="push-container">
         <div className="flex p-5 justify-center">
           <button onClick={() => setPanelVisible(!panelVisible)}>✂️🍝</button>

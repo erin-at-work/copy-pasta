@@ -16,15 +16,14 @@ code::selection {
   left: 0;
   z-index: 1;
   height: 100%;
-  background-color: rgba(43, 142, 140, 0.70);
+  background-color: rgba(43, 142, 140, 0.7);
   transition: all 0.5s ease-in;
-  transform: translate3d(-100%, 0, 0)
+  transform: translate3d(-100%, 0, 0);
 }
 
 .is-visible .panel {
   transform: translate3d(0, 0, 0);
 }
-
 
 .push-container {
   transition: all 0.5s ease-in;
@@ -33,4 +32,16 @@ code::selection {
 
 .is-visible .push-container {
   transform: translate3d(150px, 0, 0);
+}
+
+.header {
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+    helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+  font-size: 2em;
+  font-weight: 800;
+  color: #edf2f7;
+}
+
+.header span {
+  color: #497a7b;
 }
