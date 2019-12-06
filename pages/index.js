@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
+import ClipboardJS from "clipboard";
 
 import { postNewEntry } from "../lib/api";
 
@@ -17,6 +18,14 @@ const Home = ({ entries }) => {
   useEffect(() => {
     setFilter(allEntries);
   }, [allEntries]);
+
+  useEffect(() => {
+    const clipboard = new ClipboardJS(`.js-copy-entry`);
+
+    return function cleanup() {
+      clipboard.destroy();
+    };
+  }, []);
 
   const handleOnSearch = keyword => {
     console.log(keyword);
@@ -72,6 +81,12 @@ const Home = ({ entries }) => {
     }
   };
 
+  const topEntries = allEntries
+    .sort((a, b) => (a.counter > b.counter ? -1 : 1))
+    .slice(0, 5);
+
+  const header = `border-b-2 border-teal-600 pb-2 tracking-wider font-semibold font-color text-teal-700 text-xs`;
+
   return (
     <div
       className={`bg-gray-200 min-h-screen h-full ${
@@ -88,20 +103,65 @@ const Home = ({ entries }) => {
           <header className="header text-center">
             COPY<span>PASTA</span>
           </header>
-          <section className="mt-5">
-            {['github', 'stripe', 'emojis', 'docker', 'react'].map(tag => {
-              return (
-              <span className="mr-2 mb-2 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-600">#{tag}</span>
-              )
-            })}
-
-          </section>
+          <aside className="mt-5">
+            <section>
+              <header className={header}>TAGS</header>
+              <div className="pt-4">
+                {["github", "stripe", "emojis", "docker", "react", "js"].map(
+                  tag => {
+                    return (
+                      <span className="mr-2 mb-2 inline-block bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-600">
+                        #{tag}
+                      </span>
+                    );
+                  }
+                )}
+              </div>
+              <section className="mt-10">
+                <header className={header}>TOP FIVE</header>
+                <ul className="pt-4">
+                  {topEntries.map(entry => {
+                    return (
+                      <li
+                        key={entry.id}
+                        className="flex flex-row justify-between tracking-wide mb-2 text-sm text-gray-200 cursor-pointer js-copy-entry"
+                        data-clipboard-target={`#id-top-${entry.id}`}
+                      >
+                        <pre id={`id-top-${entry.id}`} className="truncate w-2/3">
+                          <code>{entry.content}</code>
+                        </pre>
+                        <div className="w-1/12 opacity-75 text-right">{entry.counter}</div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+              <section className="mt-10">
+                <header className={header}>RECENT COPY COUNTS</header>
+                <ul className="pt-4">
+                  <li className="flex flex-row tracking-wide justify-between mb-2 text-sm text-gray-200 opacity-75 cursor-pointer">
+                    <div className="w-2/3 text-sm">
+                      January 5th, 2020
+                    </div>
+                    <div className="w-1/12 text-right">
+                      12
+                    </div>
+                  </li>
+                </ul>
+              </section>
+            </section>
+          </aside>
         </div>
       </nav>
 
       <div className="push-container">
         <div className="flex p-5 justify-center">
-          <button onClick={() => setPanelVisible(!panelVisible)}>✂️🍝</button>
+          <button
+            onClick={() => setPanelVisible(!panelVisible)}
+            className="p-3"
+          >
+            ✂️🍝
+          </button>
         </div>
 
         <div className="container mx-auto w-full max-w-lg flex flex-col pb-8 px-4">

@@ -45,7 +45,7 @@ const Entry = ({ entry, removeEntryFromList }) => {
 
   const incrementCount = async () => {
     const payload = {
-      body: { counter: counter },
+      body: { counter },
       id: entry.id
     };
     try {
@@ -134,7 +134,7 @@ const Entry = ({ entry, removeEntryFromList }) => {
             </button>
           </div>
 
-          <p className="text-gray-500">{currentEntry.description}</p>
+          <p className="text-gray-500 text-sm">{currentEntry.description}</p>
           {currentEntry.link && (
             <a
               target="_blank"
