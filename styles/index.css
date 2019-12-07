@@ -49,3 +49,7 @@ code::selection {
 .transition {
   transition: all 0.2s ease-in;
 }
+
+.top-5:hover {
+  padding: 0 0.5rem;
+}

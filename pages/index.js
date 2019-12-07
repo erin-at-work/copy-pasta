@@ -128,7 +128,7 @@ const Home = ({ entries }) => {
                     return (
                       <li
                         key={entry.id}
-                        className="flex flex-row transition hover:bg-teal-200 hover:text-teal-700 justify-between tracking-wide mb-2 text-sm text-gray-200 cursor-pointer js-copy-entry"
+                        className="top-5 flex flex-row rounded-full transition hover:bg-teal-200 hover:text-teal-700 justify-between tracking-wide mb-2 text-sm text-gray-200 cursor-pointer js-copy-entry"
                         data-clipboard-target={`#id-top-${entry.id}`}
                       >
                         <pre id={`id-top-${entry.id}`} className="truncate w-2/3">
