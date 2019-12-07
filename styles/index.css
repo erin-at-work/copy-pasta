@@ -45,3 +45,7 @@ code::selection {
 .header span {
   color: #497a7b;
 }
+
+.transition {
+  transition: all 0.2s ease-in;
+}

@@ -27,6 +27,7 @@ export default (req, res) => {
       db.collection("entries")
         .add({
           created_at: firestoreTimestamp,
+          counter: 0,
           content,
           description,
           link

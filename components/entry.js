@@ -110,7 +110,7 @@ const Entry = ({ entry, removeEntryFromList }) => {
               data-entry-id={entry.id}
               onClick={() => onDeleteClick()}
               type="button"
-              className="ml-5 text-blue-500 text-xs"
+              className="ml-5 text-blue-200 text-xs"
             >
               Delete
             </button>

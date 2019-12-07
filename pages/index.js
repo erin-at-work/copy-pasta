@@ -9,6 +9,7 @@ import Entry from "../components/entry";
 const Home = ({ entries }) => {
   const [allEntries, setEntries] = useState(entries);
   const [filteredList, setFilter] = useState(allEntries);
+  const [topEntries, setTopFive] = useState([]);
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
@@ -26,6 +27,13 @@ const Home = ({ entries }) => {
       clipboard.destroy();
     };
   }, []);
+
+  const calcTopFive = entries => entries.sort((a, b) => (a.counter > b.counter ? -1 : 1)).slice(0, 5);
+
+  useEffect(() => {
+    const topEntries = calcTopFive(filteredList);
+    setTopFive(topEntries)
+  }, [filteredList]);
 
   const handleOnSearch = keyword => {
     console.log(keyword);
@@ -81,10 +89,6 @@ const Home = ({ entries }) => {
     }
   };
 
-  const topEntries = allEntries
-    .sort((a, b) => (a.counter > b.counter ? -1 : 1))
-    .slice(0, 5);
-
   const header = `border-b-2 border-teal-600 pb-2 tracking-wider font-semibold font-color text-teal-700 text-xs`;
 
   return (
@@ -124,7 +128,7 @@ const Home = ({ entries }) => {
                     return (
                       <li
                         key={entry.id}
-                        className="flex flex-row justify-between tracking-wide mb-2 text-sm text-gray-200 cursor-pointer js-copy-entry"
+                        className="flex flex-row transition hover:bg-teal-200 hover:text-teal-700 justify-between tracking-wide mb-2 text-sm text-gray-200 cursor-pointer js-copy-entry"
                         data-clipboard-target={`#id-top-${entry.id}`}
                       >
                         <pre id={`id-top-${entry.id}`} className="truncate w-2/3">
