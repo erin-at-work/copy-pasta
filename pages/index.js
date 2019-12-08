@@ -3,6 +3,7 @@ import Head from "next/head";
 import ClipboardJS from "clipboard";
 
 import { postNewEntry } from "../lib/api";
+import { useKeyboardEvent } from "../lib/useHooks";
 
 import Entry from "../components/entry";
 
@@ -13,12 +14,19 @@ const Home = ({ entries }) => {
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
+  const [autoFocusSearch, setSearchFocus] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const [panelVisible, setPanelVisible] = useState(true);
 
+  const setAutoFocus = () => {
+    setSearchFocus(!autoFocusSearch);
+  };
+
+  useKeyboardEvent("/", setAutoFocus, autoFocusSearch);
+
   const panelKeyMap = {
     Meta: false,
-    b: false,
+    b: false
   };
 
   useEffect(() => {
@@ -36,7 +44,7 @@ const Home = ({ entries }) => {
       if (ev.key in panelKeyMap) {
         panelKeyMap[ev.key] = false;
       }
-    }
+    };
 
     window.addEventListener("keydown", downhandler);
     window.addEventListener("keyup", upHandler);
@@ -49,8 +57,8 @@ const Home = ({ entries }) => {
   /** Note: Need to press `n` first, then `Alt` */
   const formKeyMap = {
     n: false,
-    Alt: false,
-  }
+    Alt: false
+  };
 
   useEffect(() => {
     const handler = function(ev) {
@@ -67,7 +75,7 @@ const Home = ({ entries }) => {
       if (ev.key in formKeyMap) {
         formKeyMap[ev.key] = false;
       }
-    }
+    };
 
     window.addEventListener("keydown", handler);
     window.addEventListener("keyup", upHandler);
@@ -97,7 +105,8 @@ const Home = ({ entries }) => {
     setTopFive(topEntries);
   }, [filteredList]);
 
-  const handleOnSearch = keyword => {
+  const handleOnSearch = ev => {
+    const keyword = ev.target.value;
     console.log(keyword);
     let list;
 
@@ -118,6 +127,7 @@ const Home = ({ entries }) => {
       }
     }
     setFilter(list);
+    return false;
   };
 
   const removeEntry = entryId => {
@@ -232,14 +242,15 @@ const Home = ({ entries }) => {
         </div>
 
         <div className="container mx-auto w-full max-w-lg flex flex-col pb-8 px-4">
-          <input
-            onChange={ev => handleOnSearch(ev.target.value)}
-            autoFocus
-            placeholder="Search here"
-            type="text"
-            className="bg-gray-300 mb-5 appearance-none border-2 border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-          />
-
+          {autoFocusSearch && (
+            <input
+              onChange={ev => handleOnSearch(ev)}
+              autoFocus
+              placeholder="Search here"
+              type="text"
+              className="bg-gray-300 mb-5 appearance-none border-2 border-gray-300 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+            />
+          )}
           {formVisible ? (
             <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-6 w-full">
               <label
