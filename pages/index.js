@@ -16,6 +16,67 @@ const Home = ({ entries }) => {
   const [formVisible, setFormVisible] = useState(false);
   const [panelVisible, setPanelVisible] = useState(true);
 
+  const panelKeyMap = {
+    Meta: false,
+    b: false,
+  };
+
+  useEffect(() => {
+    const downhandler = function(ev) {
+      if (ev.key in panelKeyMap) {
+        panelKeyMap[ev.key] = true;
+        if (panelKeyMap["Meta"] && panelKeyMap["b"]) {
+          console.log("visible?");
+          setPanelVisible(!panelVisible);
+        }
+      }
+    };
+
+    const upHandler = function(ev) {
+      if (ev.key in panelKeyMap) {
+        panelKeyMap[ev.key] = false;
+      }
+    }
+
+    window.addEventListener("keydown", downhandler);
+    window.addEventListener("keyup", upHandler);
+    return () => {
+      window.removeEventListener("keydown", downhandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, [panelVisible]);
+
+  /** Note: Need to press `n` first, then `Alt` */
+  const formKeyMap = {
+    n: false,
+    Alt: false,
+  }
+
+  useEffect(() => {
+    const handler = function(ev) {
+      if (ev.key in formKeyMap) {
+        formKeyMap[ev.key] = true;
+        if (formKeyMap["n"] && formKeyMap["Alt"]) {
+          console.log("form visible?");
+          setFormVisible(!formVisible);
+        }
+      }
+    };
+
+    const upHandler = function(ev) {
+      if (ev.key in formKeyMap) {
+        formKeyMap[ev.key] = false;
+      }
+    }
+
+    window.addEventListener("keydown", handler);
+    window.addEventListener("keyup", upHandler);
+    return () => {
+      window.removeEventListener("keydown", handler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, [formVisible]);
+
   useEffect(() => {
     setFilter(allEntries);
   }, [allEntries]);
@@ -28,11 +89,12 @@ const Home = ({ entries }) => {
     };
   }, []);
 
-  const calcTopFive = entries => entries.sort((a, b) => (a.counter > b.counter ? -1 : 1)).slice(0, 5);
+  const calcTopFive = entries =>
+    entries.sort((a, b) => (a.counter > b.counter ? -1 : 1)).slice(0, 5);
 
   useEffect(() => {
     const topEntries = calcTopFive(filteredList);
-    setTopFive(topEntries)
+    setTopFive(topEntries);
   }, [filteredList]);
 
   const handleOnSearch = keyword => {
@@ -131,10 +193,15 @@ const Home = ({ entries }) => {
                         className="top-5 flex flex-row rounded-full transition hover:bg-teal-200 hover:text-teal-700 justify-between tracking-wide mb-2 text-sm text-gray-200 cursor-pointer js-copy-entry"
                         data-clipboard-target={`#id-top-${entry.id}`}
                       >
-                        <pre id={`id-top-${entry.id}`} className="truncate w-2/3">
+                        <pre
+                          id={`id-top-${entry.id}`}
+                          className="truncate w-2/3"
+                        >
                           <code>{entry.content}</code>
                         </pre>
-                        <div className="w-1/12 opacity-75 text-right">{entry.counter}</div>
+                        <div className="w-1/12 opacity-75 text-right">
+                          {entry.counter}
+                        </div>
                       </li>
                     );
                   })}
@@ -144,12 +211,8 @@ const Home = ({ entries }) => {
                 <header className={header}>RECENT COPY COUNTS</header>
                 <ul className="pt-4">
                   <li className="flex flex-row tracking-wide justify-between mb-2 text-sm text-gray-200 opacity-75 cursor-pointer">
-                    <div className="w-2/3 text-sm">
-                      January 5th, 2020
-                    </div>
-                    <div className="w-1/12 text-right">
-                      12
-                    </div>
+                    <div className="w-2/3 text-sm">January 5th, 2020</div>
+                    <div className="w-1/12 text-right">12</div>
                   </li>
                 </ul>
               </section>
