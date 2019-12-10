@@ -18,11 +18,35 @@ const Home = ({ entries }) => {
   const [formVisible, setFormVisible] = useState(false);
   const [panelVisible, setPanelVisible] = useState(true);
 
-  const setAutoFocus = () => {
-    setSearchFocus(!autoFocusSearch);
+  const searchFocusKeyMap = {
+    Meta: false,
+    '/': false
   };
 
-  useKeyboardEvent("/", setAutoFocus, autoFocusSearch);
+  useEffect(() => {
+    const downhandler = function(ev) {
+      if (ev.key in searchFocusKeyMap) {
+        searchFocusKeyMap[ev.key] = true;
+        if (searchFocusKeyMap["Meta"] && searchFocusKeyMap["/"]) {
+          console.log("search visible");
+          setSearchFocus(!autoFocusSearch);
+        }
+      }
+    };
+
+    const upHandler = function(ev) {
+      for (const prop in searchFocusKeyMap) {
+        searchFocusKeyMap[prop] = false;
+      }
+    };
+
+    window.addEventListener("keydown", downhandler);
+    window.addEventListener("keyup", upHandler);
+    return () => {
+      window.removeEventListener("keydown", downhandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, [autoFocusSearch]);
 
   const panelKeyMap = {
     Meta: false,
@@ -101,9 +125,9 @@ const Home = ({ entries }) => {
     entries.sort((a, b) => (a.counter > b.counter ? -1 : 1)).slice(0, 5);
 
   useEffect(() => {
-    const topEntries = calcTopFive(filteredList);
+    const topEntries = calcTopFive(entries);
     setTopFive(topEntries);
-  }, [filteredList]);
+  }, [entries]);
 
   const handleOnSearch = ev => {
     const keyword = ev.target.value;
