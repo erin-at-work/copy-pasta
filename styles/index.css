@@ -40,10 +40,15 @@ code::selection {
   font-size: 2em;
   font-weight: 800;
   color: #edf2f7;
+  width: 100%;
 }
 
-.header span {
+.header .copy-pasta-span {
   color: #497a7b;
+}
+
+.header .key-notes-span {
+  color: #ab7588;
 }
 
 .transition {

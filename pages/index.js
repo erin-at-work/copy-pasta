@@ -3,7 +3,6 @@ import Head from "next/head";
 import ClipboardJS from "clipboard";
 
 import { postNewEntry } from "../lib/api";
-import { useKeyboardEvent } from "../lib/useHooks";
 
 import Entry from "../components/entry";
 
@@ -20,7 +19,7 @@ const Home = ({ entries }) => {
 
   const searchFocusKeyMap = {
     Meta: false,
-    '/': false
+    "/": false
   };
 
   useEffect(() => {
@@ -198,10 +197,10 @@ const Home = ({ entries }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <nav className="panel">
+      <nav className="panel flex flex-col justify-between">
         <div className="w-full flex flex-col p-5">
           <header className="header text-center">
-            COPY<span>PASTA</span>
+            COPY<span className="copy-pasta-span">PASTA</span>
           </header>
           <aside className="mt-5">
             <section>
@@ -252,6 +251,11 @@ const Home = ({ entries }) => {
               </section>
             </section>
           </aside>
+        </div>
+        <div className="flex p-5 bg-pink-200">
+          <header className="header text-center">
+            KEY<span className="key-notes-span">NOTES</span>
+          </header>
         </div>
       </nav>
 
