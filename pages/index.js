@@ -252,7 +252,7 @@ const Home = ({ entries }) => {
             </section>
           </aside>
         </div>
-        <div className="flex p-5 bg-pink-200">
+        <div className="flex p-5 bg-teal-700">
           <header className="header text-center">
             KEY<span className="key-notes-span">NOTES</span>
           </header>
