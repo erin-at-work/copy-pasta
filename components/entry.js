@@ -10,7 +10,7 @@ const copyBtn = `
   rounded ml-5 py-2 px-4 transition
 `;
 
-const Entry = ({ entry, removeEntryFromList }) => {
+const Entry = ({ entry, removeEntryFromList, userId }) => {
   const initialCount = entry.counter || 0;
   const [currentEntry, setEntry] = useState(entry);
   const [isDeleted, setDelete] = useState(false);
@@ -91,6 +91,7 @@ const Entry = ({ entry, removeEntryFromList }) => {
             contentEntry={currentEntry.content}
             entryId={entry.id}
             onSubmitCallback={resp => onEditEntry(resp)}
+            userId={userId}
           />
           <button
             className="text-gray-300 mb-5 mt-3"

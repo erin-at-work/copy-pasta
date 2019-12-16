@@ -6,7 +6,8 @@ const Form = ({
   descriptionEntry = "",
   linkEntry = "",
   contentEntry = "",
-  entryId = ""
+  entryId = "",
+  userId
 }) => {
   const [content, setContent] = useState(contentEntry);
   const [description, setDescription] = useState(descriptionEntry);
@@ -24,7 +25,7 @@ const Form = ({
     };
 
     try {
-      const resp = await postNewEntry({ body, id: entryId });
+      const resp = await postNewEntry({ body, id: entryId, userId });
       await resp.json();
       console.log(`Edited ${entryId}`);
 

@@ -1,30 +1,34 @@
+
 import { db, firestoreTimestamp } from "../../lib/db";
 
 export default (req, res) => {
   const {
+    query: { userId },
     body: { content, description, link },
     method
   } = req;
 
   switch (method) {
-    case "GET":
-      db.collection("entries")
-        .orderBy("created_at", "desc")
-        .get()
-        .then(querySnapshot => {
-          const entries = querySnapshot.docs.map(doc => {
-            return {
-              id: doc.id,
-              ...doc.data(),
-              created_at: doc.data().created_at.toDate()
-            };
-          });
-          res.status(200).json(entries);
-        })
-        .catch(error => res.json({ error }));
-      break;
+    // case "GET":
+    //   db.collection("entries")
+    //     .orderBy("created_at", "desc")
+    //     .get()
+    //     .then(querySnapshot => {
+    //       const entries = querySnapshot.docs.map(doc => {
+    //         return {
+    //           id: doc.id,
+    //           ...doc.data(),
+    //           created_at: doc.data().created_at.toDate()
+    //         };
+    //       });
+    //       res.status(200).json(entries);
+    //     })
+    //     .catch(error => res.json({ error }));
+    //   break;
     case "POST":
-      db.collection("entries")
+        db.collection("users")
+        .doc(userId)
+        .collection("entries")
         .add({
           created_at: firestoreTimestamp,
           counter: 0,

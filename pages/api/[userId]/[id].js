@@ -1,25 +1,29 @@
-import db from "../../../lib/db";
+import { db } from "../../../lib/db";
 
 export default (req, res) => {
   const {
-    query: { id },
+    query: { id, userId },
     body,
     method
   } = req;
 
   switch (method) {
     case "POST":
-      db.collection("entries")
+      db.collection("users")
+        .doc(userId)
+        .collection("entries")
         .doc(id)
         .update({ ...body })
         .then(() => {
-          console.log("Document successfully updated!");
+          console.log("Document updated!");
           res.status(200).json(body);
         })
         .catch(console.log);
       break;
     case "DELETE":
-      db.collection("entries")
+        db.collection("users")
+        .doc(userId)
+        .collection("entries")
         .doc(id)
         .delete()
         .then(() => {
